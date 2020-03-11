@@ -1,44 +1,90 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# raect4typescript-admin
+一个基于`react+typescript`搭建的基础项目，内置了一般CMS最基础的逻辑如路由控制、登陆登出等功能，以及提前存放了在`typescript`加持下关于`redux`、`react-router`以及编写hook、FC组件的示例，适合拿来用作基础项目搭建，只需按照内置示例的格式配置好路由就可以开始基于左侧菜单进行模块开发。
 
-## Available Scripts
+### 一、使用方法
+安装依赖：
+```
+npm install
+```
+本地运行：
+```
+npm run dev
+```
 
-In the project directory, you can run:
+### 二、开发流程
+- （1）在`src/router/config.ts`中配置路由:
+```typescript
+import Example from '../page/Example'
+import NewComponent from '../page/NewComponent'
 
-### `npm start`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+export interface routerConfigModel {
+    path:string,
+    component?:any,
+    auth?:boolean,
+    meta:MetaItem,
+    children?:routerConfigModel[]
+}
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+interface MetaItem {
+    title:string,
+    icon?:string,
+    role:string
+}
 
-### `npm test`
+export const routerConfig:routerConfigModel[] = [
+    {
+        path: '/',
+        component:Example,
+        auth:true,
+        meta:{title:'主页',role:'home-index'},
+    },
+    {
+        path: '/example',
+        component:Example,
+        auth:true,
+        meta:{title:'示例模块',role:'example-index'},
+    },
+    //以下为新增页面
+    {
+        path: '/new',
+        component:NewComponent,
+        auth:true,
+        meta:{title:'新增页面',role:'example-index'},
+    },
+]
+```
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- 2、在`src/page`中，以自己在路由里配置的组件名新建文件夹,并且建立对应的入口文件以及样式文件，以上面的*newComponent*为例:
+```
+--src
+|--Example
+|--NewComponent
+    |-- index.tsx
+    |-- index.scss
 
-### `npm run build`
+```
+- 3、在新增的组件入口中编写业务代码:
+```jsx
+import React from 'react';
+import './index.scss'
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+export interface ComponentProps {
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+}
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+const NewComponet: React.FC<ComponentProps> = (props: ComponentProps) => {
+    return (
+        <div>
+            新组件
+        </div>
+    )
+}
 
-### `npm run eject`
+export default NewComponet
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+基本流程如上所示。
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+# 三、未来新增
+鉴于该脚手架只包含了基础的开发环境以及业务组件，未来会考虑集成更多CMS业务中常用的功能，如国际化、多文本编辑器、导出Excel等。
