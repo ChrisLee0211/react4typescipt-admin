@@ -65,7 +65,7 @@ export const routerConfig:routerConfigModel[] = [
 
 ```
 - 3、在新增的组件入口中编写业务代码:
-```jsx
+```tsx
 import React from 'react';
 import './index.scss'
 
@@ -86,5 +86,56 @@ export default NewComponet
 
 基本流程如上所示。
 
+
 # 三、未来新增
 鉴于该脚手架只包含了基础的开发环境以及业务组件，未来会考虑集成更多CMS业务中常用的功能，如国际化、多文本编辑器、导出Excel等。
+
+---
+ 
+ 
+### 更新日志：
+
+- 2020.03.14
+> 新增了自定义hook工具`useViewport`，用于监测屏幕大小返回当前的width和height，基于`useContext`和`useEffect`开发
+
+用法:  
+(1)在`/src/index.tsx`中导入,并包裹App组件
+```tsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import {Provider} from 'react-redux';
+import ViewportProvider from './utils/hook/useViewport'
+import store from './store'
+import * as serviceWorker from './serviceWorker';
+
+ReactDOM.render(
+    <Provider store={store}>
+        <ViewportProvider>
+            <App/> 
+        </ViewportProvider>
+    </Provider>,
+document.getElementById('root'));
+```
+(2)在需要使用的组件中，引入`useViewport`:
+```tsx
+import React from 'react';
+import {useViewport} from '../../utils/useViewport'
+import './index.scss'
+
+export interface Iprops {
+    dispatch:any
+}
+
+const translator: React.FC<Iprops> = (props: Iprops) => {
+    const {width,height} = useViewport()
+    return (
+        <div>
+            <div className="test">
+                {width},{height}
+            </div>
+        </div>
+    )
+}
+```
