@@ -139,3 +139,6 @@ const translator: React.FC<Iprops> = (props: Iprops) => {
     )
 }
 ```
+
+- 2020.03.18
+> 加入阿里巴巴团队研发的```react-intl-universal```作为国际化的方案，具体用法请参考[react-intl-universal](https://github.com/alibaba/react-intl-universal)
