@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import intl from 'react-intl-universal';
-import './index.scss'
+import './index.less'
 
 export interface Iprops {
     dispatch:any
