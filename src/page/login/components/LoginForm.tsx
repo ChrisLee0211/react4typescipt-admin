@@ -2,22 +2,22 @@ import React,{useState, useCallback} from 'react';
 import CommonInput from '../../../components/commonInput/index';
 import {Button,message} from 'antd';
 import {History} from 'history'
+import { useApolloClient } from "@apollo/react-hooks";
 
 export interface ComponentProps {
     history:History,
-    setloginStatus:Function,
 }
 
 
 
 const LoginForm: React.FC<ComponentProps> = (props: ComponentProps) => {
 
-    const {history,setloginStatus}  = props;
+    const {history}  = props;
 
     const [UserName,setUserName] = useState('');
     const [Password,setPassword] = useState('');
     const [formLoading, setFormLoading] = useState(false);
-
+    const client = useApolloClient();
     //登陆逻辑
     const clickToLogin:()=>void = useCallback(()=>{
         setFormLoading(true)
@@ -25,9 +25,9 @@ const LoginForm: React.FC<ComponentProps> = (props: ComponentProps) => {
             message.error('请输入用户名与密码');
             return
         }
-        setloginStatus(true)
+        client.writeData({data:{isLogin:true}})
         history.push('/');
-    },[UserName, Password, setloginStatus,, history])
+    },[UserName, Password, history])
     
     /**
      * 监听回车触发表单提交

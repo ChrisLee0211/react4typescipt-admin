@@ -1,30 +1,21 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import intl from 'react-intl-universal';
-import './index.less'
+import {useQuery} from "@apollo/react-hooks";
+import {GET_LOGIN_STATUS} from "@/page/login/store/gql";
 
-export interface Iprops {
-    dispatch:any
+type res = {
+    isLogin: boolean
 }
 
-const translator: React.FC<Iprops> = (props: Iprops) => {
-
-    return (
-        <div>
-            <div className="test">
-                {intl.get('TEST')}
-            </div>
-        </div>
-    )
+function ExchangeRates() {
+    const {data,error,loading} = useQuery<res>(GET_LOGIN_STATUS);
+    if(error) return <span>error</span>
+    if(loading) return <span>loading...</span>
+  return (
+      <div>
+          {data&&String(data.isLogin)}
+          
+      </div>
+  )
 }
 
-const mapStateToProps = (state:any) => {
-    return state
-  }
-  const mapDispatchToProps = (dispatch:any) => {
-    return { dispatch }
-  }
-  
-  export default connect(
-    mapStateToProps, mapDispatchToProps
-  )(translator)
+export default ExchangeRates

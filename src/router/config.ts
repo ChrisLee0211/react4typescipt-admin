@@ -19,7 +19,7 @@ export const routerConfig:routerConfigModel[] = [
     {
         path: '/',
         component:Example,
-        auth:true,
+        auth:false,
         meta:{title:'主页',role:'home-index'},
     },
     {

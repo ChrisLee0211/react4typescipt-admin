@@ -1,29 +1,27 @@
 import React, { useCallback } from 'react';
 import {Layout,Tooltip} from 'antd';
 import {LogoutOutlined} from '@ant-design/icons';
-import {UserInfo} from '../login/interface'
 import { History } from 'history'
-import { Dispatch } from 'redux';
+import {useApolloClient} from "@apollo/react-hooks";
 
 
 export interface ComponentProps {
     history:History,
-    logout:Function
-    dispatch:Dispatch
 }
 
 const MainHeader: React.FC<ComponentProps> = (props: ComponentProps) => {
 
     const {Header} = Layout;
-    const {history,logout} = props;
+    const {history} = props;
+    const client = useApolloClient();
     const handlelogout = useCallback(()=>{
-        logout()
+        client.writeData({data:{isLogin:false}})
         history.push('/login')
-    },[history,logout])
+    },[history,client])
     return (
         <Header className="Layout-Header">
             <div className="Layout-Header-left">
-                react-ts-template
+                个人博客后台
             </div>
             <div className="Layout-Header-right">
                 <div className="user">Hi~</div>
